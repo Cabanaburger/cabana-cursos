@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Academia Cabana de Hospitalidade — Livro 1: O Jeito Cabana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bevan&family=Work+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#53A246;
+  --green-dark:#3D7A34;
+  --green-tint:#EAF5E7;
+  --teal:#2C9C93;
+  --teal-tint:#E4F5F3;
+  --jade:#3FAE7A;
+  --jade-tint:#E7F6EE;
+  --purple:#7B5EA7;
+  --purple-tint:#F0EBF8;
+  --orange:#F0863A;
+  --orange-tint:#FDEEE1;
+  --coral:#F2665D;
+  --coral-tint:#FCE7E5;
+  --yellow:#F4C23D;
+  --yellow-tint:#FCF3DC;
+  --magenta:#D5457B;
+  --magenta-tint:#FAE6EF;
+  --ink:#26291F;
+  --ink-soft:#5B5F52;
+  --paper:#FFFFFF;
+  --paper-soft:#FAFAF7;
+  --line:#E7E5DC;
+  --shadow: 0 12px 28px rgba(38,41,31,0.08);
+  --radius: 18px;
+  --font-display:'Bevan', serif;
+  --font-body:'Work Sans', sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:var(--font-body);
+  color:var(--ink);
+  background:var(--paper-soft);
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.display{font-family:var(--font-display);font-weight:400;letter-spacing:0.2px;}
+p{line-height:1.65;}
+button{font-family:var(--font-body);cursor:pointer;}
+a{color:var(--green-dark);}
+
+/* ===== LAYOUT ===== */
+#app{display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+#sidebar{
+  width:300px;flex-shrink:0;background:var(--paper);border-right:1px solid var(--line);
+  padding:28px 20px 28px;position:sticky;top:0;height:100vh;overflow-y:auto;
+}
+.brand-row{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
+.brand-row .mascot-wrap{width:44px;height:44px;flex-shrink:0;}
+.brand-title{font-family:var(--font-display);font-size:16.5px;line-height:1.25;color:var(--green-dark);}
+.brand-sub{font-size:12px;color:var(--ink-soft);margin:2px 0 22px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;}
+
+.progress-wrap{margin-bottom:24px;}
+.progress-label{display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;}
+.progress-track{height:8px;border-radius:99px;background:var(--green-tint);overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--jade));border-radius:99px;transition:width .4s ease;width:0%;}
+
+nav.module-nav{display:flex;flex-direction:column;gap:6px;}
+.mod-btn{
+  display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  border:none;background:transparent;padding:12px 12px;border-radius:12px;
+  font-size:14px;font-weight:700;color:var(--ink);
+}
+.mod-btn .num{
+  width:26px;height:26px;border-radius:50%;background:var(--paper-soft);border:1.5px solid var(--line);
+  display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;font-weight:800;
+}
+.mod-btn.active{background:var(--green);color:#fff;}
+.mod-btn.active .num{background:#fff;color:var(--green-dark);border-color:transparent;}
+.mod-btn.done .num{background:var(--jade);border-color:var(--jade);color:#fff;}
+.mod-btn.locked{color:var(--ink-soft);}
+.mod-btn .lock{margin-left:auto;opacity:.6;}
+
+.chap-list{display:flex;flex-direction:column;gap:2px;margin:2px 0 10px 34px;}
+.chap-btn{
+  border:none;background:transparent;text-align:left;padding:7px 10px;border-radius:8px;
+  font-size:12.5px;color:var(--ink-soft);font-weight:600;
+}
+.chap-btn.active{background:var(--green-tint);color:var(--green-dark);}
+
+/* MAIN */
+#main{flex:1;min-width:0;}
+.topbar{
+  display:none;
+}
+.content{max-width:860px;margin:0 auto;padding:56px 40px 120px;}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--green-dark);background:var(--green-tint);padding:6px 14px;border-radius:99px;margin-bottom:18px;
+}
+.page-title{font-size:34px;margin:0 0 10px;color:var(--ink);}
+.page-lede{font-size:17px;color:var(--ink-soft);margin:0 0 40px;max-width:640px;}
+.chapter-block{margin-bottom:56px;padding-top:6px;scroll-margin-top:30px;}
+.chapter-block h2{font-size:24px;margin:0 0 4px;color:var(--green-dark);display:flex;align-items:center;gap:10px;}
+.chapter-block .kicker{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px;}
+.chapter-block > p{font-size:15.5px;color:var(--ink);max-width:680px;}
+.icon{width:26px;height:26px;flex-shrink:0;display:inline-block;vertical-align:middle;}
+.icon svg{width:100%;height:100%;display:block;}
+
+/* CARDS */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow);}
+.card + .card{margin-top:14px;}
+.grid{display:grid;gap:16px;}
+.grid.cols-3{grid-template-columns:repeat(3,1fr);}
+.grid.cols-2{grid-template-columns:repeat(2,1fr);}
+@media(max-width:760px){.grid.cols-3,.grid.cols-2{grid-template-columns:1fr;}}
+
+.pillar-card{border-radius:var(--radius);padding:24px 20px;color:#fff;position:relative;overflow:hidden;}
+.pillar-card .icon{width:30px;height:30px;margin-bottom:14px;}
+.pillar-card h3{font-size:17px;margin:0 0 8px;}
+.pillar-card p{font-size:13.5px;margin:0;opacity:.95;}
+.pillar-1{background:linear-gradient(160deg,var(--green),var(--green-dark));}
+.pillar-2{background:linear-gradient(160deg,var(--teal),#1F6E68);}
+.pillar-3{background:linear-gradient(160deg,var(--orange),#C6641F);}
+
+.value-card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px 18px;}
+.value-card h4{font-size:14px;margin:0 0 4px;color:var(--ink);}
+.value-card p{font-size:12.5px;color:var(--ink-soft);margin:0;}
+
+.timeline{border-left:3px solid var(--green-tint);margin-left:8px;padding-left:24px;display:flex;flex-direction:column;gap:24px;}
+.timeline-item{position:relative;}
+.timeline-item::before{content:'';position:absolute;left:-31px;top:3px;width:14px;height:14px;border-radius:50%;background:var(--green);border:3px solid var(--green-tint);}
+.timeline-item .year{font-family:var(--font-display);color:var(--green-dark);font-size:15px;margin-bottom:3px;}
+.timeline-item p{margin:0;font-size:14.5px;}
+
+.role-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);}
+.role-card .role-head{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.role-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.role-icon svg{width:24px;height:24px;}
+.role-card h3{font-size:17px;margin:0;}
+.role-card .mission{font-size:13.5px;color:var(--ink-soft);font-style:italic;margin:0 0 12px;}
+.role-card ul{margin:0;padding-left:18px;font-size:13.5px;}
+.role-card li{margin-bottom:4px;}
+.role-must{margin-top:12px;padding:10px 12px;border-radius:10px;font-size:12.5px;font-weight:600;}
+
+.journey-step{display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--line);}
+.journey-step:last-child{border-bottom:none;}
+.journey-num{width:36px;height:36px;border-radius:50%;background:var(--green-tint);color:var(--green-dark);display:flex;align-items:center;justify-content:center;font-weight:800;font-family:var(--font-display);flex-shrink:0;}
+.journey-body{flex:1;min-width:0;}
+.journey-body h4{margin:0 0 6px;font-size:15.5px;}
+.journey-body p{margin:0 0 8px;font-size:14px;}
+.journey-quote{background:var(--paper-soft);border-left:3px solid var(--green);padding:8px 12px;font-size:13px;font-style:italic;border-radius:0 8px 8px 0;color:var(--ink-soft);}
+.journey-tip{margin-top:8px;font-size:12.5px;background:var(--yellow-tint);color:#7A5A0C;padding:7px 10px;border-radius:8px;display:inline-block;}
+
+.callout{border-radius:14px;padding:18px 20px;font-size:14.5px;display:flex;gap:12px;align-items:flex-start;}
+.callout svg{width:22px;height:22px;flex-shrink:0;margin-top:1px;}
+.callout.tip{background:var(--jade-tint);color:#1E5A3E;}
+.callout.quote{background:var(--purple-tint);color:#4A3768;font-family:var(--font-display);font-size:16px;line-height:1.5;}
+.callout.stat{background:var(--coral-tint);color:#8C2C25;}
+.callout.warn{background:var(--orange-tint);color:#8C4A16;}
+
+.stat-big{font-family:var(--font-display);font-size:44px;line-height:1;color:var(--coral);}
+
+/* CASES */
+.case-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 24px;margin-bottom:16px;}
+.case-card .case-tag{font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--magenta);margin-bottom:8px;display:block;}
+.case-card h4{margin:0 0 8px;font-size:16px;}
+.case-card p{font-size:14.5px;margin:0 0 14px;}
+.reveal-btn{background:var(--ink);color:#fff;border:none;padding:10px 18px;border-radius:99px;font-size:13px;font-weight:700;}
+.reveal-content{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);display:none;}
+.reveal-content.show{display:block;}
+.reveal-content .label{font-size:11.5px;font-weight:800;text-transform:uppercase;color:var(--green-dark);margin-bottom:4px;}
+.reveal-content p{margin:0 0 10px;font-size:14px;}
+
+/* GLOSSARY FLIP CARDS */
+.glossary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+@media(max-width:760px){.glossary-grid{grid-template-columns:repeat(2,1fr);}}
+.flip-card{perspective:1000px;height:120px;}
+.flip-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d;}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg);}
+.flip-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;padding:14px;display:flex;align-items:center;justify-content:center;text-align:center;box-shadow:var(--shadow);}
+.flip-front{background:var(--green);color:#fff;font-family:var(--font-display);font-size:13px;letter-spacing:.03em;}
+.flip-back{background:var(--paper);border:1px solid var(--line);transform:rotateY(180deg);font-size:11.5px;color:var(--ink-soft);}
+
+/* REFLECTION */
+.reflect-block{margin-bottom:18px;}
+.reflect-block p.q{font-size:14.5px;font-weight:600;margin:0 0 8px;}
+.reflect-block textarea{
+  width:100%;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;font-family:var(--font-body);
+  font-size:14px;resize:vertical;min-height:64px;background:var(--paper-soft);
+}
+.reflect-block textarea:focus{outline:2px solid var(--green);border-color:transparent;}
+.reflect-hint{font-size:12px;color:var(--ink-soft);margin-top:4px;}
+.reflect-export{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px;}
+.btn-secondary{
+  background:var(--paper);color:var(--green-dark);border:1.5px solid var(--green);padding:11px 20px;border-radius:99px;
+  font-weight:700;font-size:13.5px;display:inline-flex;align-items:center;gap:8px;
+}
+.btn-secondary svg{width:16px;height:16px;}
+.btn-secondary:hover{background:var(--green-tint);}
+
+/* PRINT / PDF EXPORT */
+#print-area{display:none;}
+@media print{
+  body *{visibility:hidden;}
+  #print-area, #print-area *{visibility:visible;}
+  #print-area{display:block;position:absolute;top:0;left:0;width:100%;padding:24px;}
+  #print-area h1{font-family:var(--font-display);color:var(--green-dark);font-size:22px;margin:0 0 4px;}
+  #print-area .print-sub{font-size:12px;color:var(--ink-soft);margin-bottom:24px;}
+  #print-area .print-section{margin-bottom:20px;}
+  #print-area .print-section h2{font-size:14px;color:var(--green-dark);margin:0 0 10px;}
+  #print-area .print-q{font-weight:700;font-size:12.5px;margin:14px 0 4px;}
+  #print-area .print-a{font-size:12.5px;color:var(--ink);border-left:2px solid var(--green);padding-left:10px;margin:0 0 4px;white-space:pre-wrap;}
+}
+
+/* QUIZ */
+.quiz-shell{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 30px 26px;}
+.quiz-shell h2{font-size:22px;margin:0 0 4px;}
+.quiz-progress{font-size:12.5px;color:var(--ink-soft);font-weight:700;margin-bottom:22px;}
+.quiz-q{display:none;}
+.quiz-q.active{display:block;}
+.quiz-q .qtext{font-size:16px;font-weight:700;margin:0 0 16px;}
+.quiz-opt{
+  display:block;width:100%;text-align:left;border:1.5px solid var(--line);background:var(--paper-soft);
+  border-radius:12px;padding:12px 16px;margin-bottom:10px;font-size:14px;
+}
+.quiz-opt:hover{border-color:var(--green);}
+.quiz-opt.correct{background:var(--jade-tint);border-color:var(--jade);color:#1E5A3E;font-weight:700;}
+.quiz-opt.wrong{background:var(--coral-tint);border-color:var(--coral);color:#8C2C25;font-weight:700;}
+.quiz-feedback{margin-top:10px;font-size:13.5px;padding:10px 14px;border-radius:10px;display:none;}
+.quiz-feedback.show{display:block;}
+.quiz-nav{display:flex;justify-content:flex-end;margin-top:18px;}
+.btn-primary{
+  background:var(--green);color:#fff;border:none;padding:12px 26px;border-radius:99px;font-weight:700;font-size:14px;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.btn-primary:disabled{background:var(--line);color:var(--ink-soft);cursor:not-allowed;}
+.quiz-result{text-align:center;padding:20px 0;}
+.quiz-result .stat-big{color:var(--green);}
+.quiz-result p{color:var(--ink-soft);margin-top:6px;}
+
+.nextmod-bar{display:flex;justify-content:flex-end;margin-top:36px;}
+
+/* COVER */
+.cover-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:
+  radial-gradient(circle at 15% 20%, var(--green-tint), transparent 55%),
+  radial-gradient(circle at 85% 80%, var(--yellow-tint), transparent 55%), var(--paper);
+  padding:40px;text-align:center;}
+.cover-inner{max-width:560px;}
+.cover-mascot{width:120px;height:120px;margin:0 auto 24px;}
+.cover-inner .eyebrow{background:var(--paper);border:1.5px solid var(--green);}
+.cover-inner h1{font-size:56px;color:var(--green-dark);margin:0 0 14px;line-height:1.1;}
+.cover-def{font-size:15.5px;color:var(--ink-soft);margin:0 0 30px;line-height:1.6;}
+.cover-def em{color:var(--ink);font-style:italic;font-weight:600;}
+.cover-meta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px;}
+.cover-chip{font-size:12px;font-weight:700;background:var(--paper);border:1px solid var(--line);padding:7px 14px;border-radius:99px;color:var(--ink-soft);}
+
+/* COMPLETION */
+.completion-screen{text-align:center;padding:60px 20px;}
+.completion-screen .cover-mascot{width:140px;height:140px;}
+.completion-screen h1{font-size:32px;color:var(--green-dark);margin:20px 0 10px;}
+.completion-screen p{max-width:520px;margin:0 auto 8px;color:var(--ink-soft);font-size:15.5px;}
+.completion-quote{font-family:var(--font-display);font-size:20px;color:var(--purple);margin:26px auto;max-width:480px;line-height:1.5;}
+
+/* PHOTOS */
+.photo-banner{border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin:18px 0 22px;position:relative;}
+.photo-banner img{width:100%;display:block;aspect-ratio:16/9;object-fit:cover;object-position:center 25%;}
+.photo-caption{padding:12px 18px;background:var(--paper);font-size:12.5px;color:var(--ink-soft);border-top:1px solid var(--line);}
+.photo-inline{border-radius:16px;overflow:hidden;box-shadow:var(--shadow);flex-shrink:0;width:150px;height:190px;}
+.photo-inline img{width:100%;height:100%;object-fit:cover;display:block;}
+.journey-step{align-items:flex-start;}
+.journey-step .journey-media{margin-left:auto;}
+@media(max-width:640px){.journey-step{flex-wrap:wrap;} .journey-media{margin-left:0 !important;width:100%;height:180px;}}
+
+/* screen switcher */
+.screen{display:none;}
+.screen.active{display:block;}
+
+/* icon-list utility */
+.icon-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
+.icon-list li{display:flex;gap:10px;font-size:14.5px;align-items:flex-start;}
+.icon-list svg{width:19px;height:19px;flex-shrink:0;margin-top:2px;color:var(--green);}
+
+::selection{background:var(--yellow-tint);}
+.mobile-toggle{display:none;}
+@media(max-width:900px){
+  #sidebar{position:fixed;left:-320px;transition:left .25s;z-index:50;box-shadow:0 0 0 2000px rgba(0,0,0,0);}
+  #sidebar.open{left:0;box-shadow:0 0 0 2000px rgba(0,0,0,.35);}
+  .content{padding:56px 20px 100px;}
+  .mobile-toggle{display:flex;position:fixed;top:16px;left:16px;z-index:60;background:var(--green);color:#fff;border:none;width:44px;height:44px;border-radius:50%;align-items:center;justify-content:center;box-shadow:var(--shadow);}
+  .grid.cols-3{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<div class="screen active" id="screen-cover">
+  <div class="cover-screen">
+    <div class="cover-inner">
+      <div class="cover-mascot" id="mascot-cover"></div>
+      <span class="eyebrow">Academia Cabana · Livro 1 · O Jeito Cabana</span>
+      <h1>Hospitalidade</h1>
+      <p class="cover-def"><em>substantivo feminino</em> — a arte de fazer alguém se sentir bem-vindo de verdade. No Cabana, é a atitude que vem antes de qualquer produto ou script.</p>
+      <div class="cover-meta">
+        <span class="cover-chip">3 módulos</span>
+        <span class="cover-chip">Leitura + atividades</span>
+        <span class="cover-chip">~35 min</span>
+      </div>
+      <button class="btn-primary" onclick="startCourse()">Começar o curso →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ COURSE ============ -->
+<div class="screen" id="screen-course">
+  <div id="app">
+    <button class="mobile-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <aside id="sidebar">
+      <div class="brand-row">
+        <div class="mascot-wrap" id="mascot-sidebar"></div>
+        <div>
+          <div class="brand-title">O Jeito<br>Cabana</div>
+        </div>
+      </div>
+      <div class="brand-sub">Livro 1 · Hospitalidade</div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Seu progresso</span><span id="progress-pct">0%</span></div>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+      </div>
+      <nav class="module-nav" id="module-nav"></nav>
+    </aside>
+    <main id="main">
+      <div class="content" id="content-root"></div>
+    </main>
+  </div>
+</div>
+
+<!-- ============ COMPLETION ============ -->
+<div class="screen" id="screen-done">
+  <div class="content completion-screen">
+    <div class="cover-mascot" id="mascot-done" style="margin:0 auto;"></div>
+    <span class="eyebrow">Livro 1 concluído</span>
+    <h1>Viva o Jeito Cabana.</h1>
+    <p>Você chegou ao fim do primeiro livro da Academia Cabana. Mas isso não é um fim — é um começo. A verdadeira aprendizagem acontece todos os dias no salão.</p>
+    <div class="completion-quote">"Não é um estado que você alcança um dia e fica. É uma prática — uma escolha que você faz de novo em cada turno."</div>
+    <div class="grid cols-2" style="max-width:480px;margin:0 auto;text-align:left;">
+      <div class="value-card"><h4>Hospitalidade é atitude</h4></div>
+      <div class="value-card"><h4>Trabalho em equipe faz a operação acontecer</h4></div>
+      <div class="value-card"><h4>Cada detalhe importa</h4></div>
+      <div class="value-card"><h4>O cliente está sempre no centro</h4></div>
+    </div>
+    <div style="margin-top:34px;">
+      <button class="btn-primary" onclick="goToScreen('screen-course'); jumpTo(0,0);">Revisar o conteúdo</button>
+    </div>
+  </div>
+</div>
+
+<div id="print-area"></div>
+<script>
+const PHOTOS = {
+  'team-group': 'imagens/hospitalidade-img1-46706a0c.jpg',
+  'pos-checkout': 'imagens/hospitalidade-img2-9d6d3544.jpg',
+  'drink': 'imagens/hospitalidade-img3-37a9e407.jpg',
+  'menu-recepcao': 'imagens/hospitalidade-img4-519d6c77.jpg',
+  'duo-portrait': 'imagens/hospitalidade-img5-29ef53de.jpg',
+  'boqueta-tray': 'imagens/hospitalidade-img6-d87fea98.jpg',
+  'portrait-man': 'imagens/hospitalidade-img7-b8cefacd.jpg',
+};
+
+/* ================= ICONS ================= */
+const ICONS = {
+  home: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>`,
+  team: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3.2"/><circle cx="17" cy="9" r="2.6"/><path d="M2.5 20c.6-3.6 3-5.6 5.5-5.6s4.9 2 5.5 5.6"/><path d="M14.5 20c.4-2.6 1.9-4.2 3.7-4.4"/></svg>`,
+  heart: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7.5-4.6-10-9.2C.4 7.4 2 4 5.4 4c2 0 3.5 1.1 4.6 2.7C11.1 5.1 12.6 4 14.6 4 18 4 19.6 7.4 22 10.8 19.5 15.4 12 20 12 20z"/></svg>`,
+  target: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/></svg>`,
+  compass: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M15.5 8.5l-2.2 5.8-5.8 2.2 2.2-5.8z"/></svg>`,
+  route: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="19" r="2"/><circle cx="19" cy="5" r="2"/><path d="M7 19h6a4 4 0 0 0 4-4V9a4 4 0 0 1 4-4"/></svg>`,
+  zap: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 14h6l-1 8 9-13h-6z"/></svg>`,
+  book: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v17H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 19.5V4.5"/><path d="M20 19H6.5a2.5 2.5 0 0 0 0 5H20"/></svg>`,
+  handshake: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12l4-3 4 2.3L14 8l4 1.5 4 3"/><path d="M6 15l3 3 2-1.5 2 2 2-1.5 3 2"/></svg>`,
+  chat: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 20l1.2-5.1A8 8 0 1 1 21 12z"/></svg>`,
+  clock: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>`,
+  bell: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>`,
+  chair: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12v9H6z"/><path d="M6 13v7M18 13v7M6 17h12"/></svg>`,
+  smile: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M8.5 14c1 1.3 2.2 2 3.5 2s2.5-.7 3.5-2"/><path d="M9 9.5h.01M15 9.5h.01"/></svg>`,
+  cart: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/><path d="M2.5 3h2.5l2.4 12h10.3l2.3-8H6"/></svg>`,
+  tray: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="18" height="4" rx="1"/><path d="M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/></svg>`,
+  check: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6"/></svg>`,
+  box: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 7.5L12 3l8.5 4.5L12 12z"/><path d="M3.5 7.5V16.5L12 21l8.5-4.5V7.5"/><path d="M12 12v9"/></svg>`,
+  lightbulb: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>`,
+  eye: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 12S5 5.5 12 5.5 22.5 12 22.5 12 19 18.5 12 18.5 1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></svg>`,
+  scale: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M5 7h14M5 7l-3 6a3 3 0 0 0 6 0zM19 7l-3 6a3 3 0 0 0 6 0z"/></svg>`,
+  fire: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c1 3-3 4.5-3 8a3.5 3.5 0 0 0 7 0c0-1-.4-1.8-1-2.4.6 2.2-.6 3.4-1.6 3.4-1.4 0-2-1.2-1.4-2.6.6-1.5 1-2.9 0-6.4z"/><path d="M6 14a6 6 0 0 0 12 0c0-1.5-.5-2.7-1.3-3.7"/></svg>`,
+  puzzle: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h4V5.5a1.5 1.5 0 0 1 3 0V8h4v4h2.5a1.5 1.5 0 0 1 0 3H15v4h-4v-2.5a1.5 1.5 0 0 0-3 0V19H4v-4h2.5a1.5 1.5 0 0 0 0-3H4z"/></svg>`,
+  notebook: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M8 3v18M8 8h8M8 12h8M8 16h5"/></svg>`,
+  flag: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4h13l-3 4 3 4H5"/></svg>`,
+  lock: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="9" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg>`,
+  download: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4 19.5h16"/></svg>`,
+};
+function icon(name, extraClass){ return `<span class="icon ${extraClass||''}">${ICONS[name]||''}</span>`; }
+
+/* mascot: friendly bun character, reused across screens */
+const MASCOT_SVG = `
+<svg viewBox="0 0 120 120" width="100%" height="100%">
+  <ellipse cx="60" cy="100" rx="34" ry="7" fill="#00000012"/>
+  <path d="M20 58c0-22 18-38 40-38s40 16 40 38H20z" fill="#F0863A"/>
+  <path d="M20 58c0-22 18-38 40-38s40 16 40 38" fill="none"/>
+  <circle cx="34" cy="46" r="3.2" fill="#F4C23D"/>
+  <circle cx="52" cy="34" r="3" fill="#F4C23D"/>
+  <circle cx="70" cy="42" r="3.4" fill="#F4C23D"/>
+  <circle cx="86" cy="52" r="2.8" fill="#F4C23D"/>
+  <circle cx="60" cy="30" r="3" fill="#F4C23D"/>
+  <rect x="16" y="58" width="88" height="14" rx="6" fill="#53A246"/>
+  <rect x="18" y="72" width="84" height="12" rx="5" fill="#D5457B" opacity="0.85"/>
+  <path d="M18 84c0 10 18 18 42 18s42-8 42-18H18z" fill="#F0863A"/>
+  <circle cx="46" cy="49" r="4.2" fill="#26291F"/>
+  <circle cx="74" cy="49" r="4.2" fill="#26291F"/>
+  <path d="M50 60c3 3 17 3 20 0" stroke="#26291F" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+  <circle cx="38" cy="56" r="4.5" fill="#F2665D" opacity="0.55"/>
+  <circle cx="82" cy="56" r="4.5" fill="#F2665D" opacity="0.55"/>
+</svg>`;
+document.querySelectorAll('#mascot-cover,#mascot-sidebar,#mascot-done').forEach(el=>el.innerHTML=MASCOT_SVG);
+
+/* ================= COURSE DATA ================= */
+const PILLARS = [
+  {cls:'pillar-1', ic:'target', t:'Comida de qualidade', d:'Ingredientes reais, produção própria, sem congelados. A Cozinha Central abastece todas as lojas com insumos artesanais.'},
+  {cls:'pillar-2', ic:'heart', t:'Excelência no atendimento', d:'Hospitalidade, simpatia e alegria — não como script, como atitude. O Cabaneiro é quem faz a experiência acontecer.'},
+  {cls:'pillar-3', ic:'home', t:'Ambiente diferenciado', d:'Lojas com identidade própria, que acolhem. Nossa cabana não tem portas porque todos são bem-vindos.'},
+];
+const VALUES = [
+  {t:'Respeito', d:'Com o cliente, com o colega, com o fornecedor. Aqui e em qualquer lugar do mundo.'},
+  {t:'Tentar sempre', d:'Você nunca vai falar que não dá. Aqui você testa primeiro, sempre pensando grande.'},
+  {t:'Fazer mais com menos', d:'Não desperdiçar tempo nem recursos. Isso não significa prejudicar pessoas ou serviços — nunca.'},
+  {t:'Pensar e agir como dono', d:'Valorizamos autonomia. Envolva-se a ponto de agir como se fosse seu.'},
+  {t:'Sempre atentos', d:'Esteja por dentro do que acontece na loja, na rede e no mercado.'},
+  {t:'Esbanjar simpatia e felicidade', d:'Trabalhar fica mais leve quando a gente ama o que faz. Essa energia chega no cliente.'},
+];
+const ROLES = [
+  {ic:'bell', bg:'var(--green)', t:'Embaixador (Recepção)', mission:'Receber todos os clientes com simpatia e fazer com que se sintam bem-vindos desde o primeiro contato.',
+   items:['Recepcionar cada cliente com sorriso no rosto','Tirar dúvidas sobre o funcionamento da loja','Organizar a fila de espera quando necessário','Registrar clientes no Get In (quando disponível)','Organizar mesas para grupos e conduzir os clientes até a mesa'],
+   must:'Hospitalidade. O cliente precisa sentir que era esperado antes mesmo de se sentar.', tint:'var(--green-tint)', mtext:'#2A5A22'},
+  {ic:'chat', bg:'var(--teal)', t:'Atendente (Garçom)', mission:'Conduzir toda a experiência do cliente durante a permanência no restaurante.',
+   items:['Apresentar-se pelo nome e receber com simpatia','Explicar o QR Code e o modelo híbrido','Conhecer profundamente o cardápio e fazer sugestões de venda','Registrar corretamente os pedidos e manter a mesa organizada','Fazer o check-in após a segunda mordida e conduzir o fechamento'],
+   must:'Presença, atenção aos detalhes e capacidade de antecipar as necessidades do cliente.', tint:'var(--teal-tint)', mtext:'#1B5F59'},
+  {ic:'tray', bg:'var(--purple)', t:'Boqueta', mission:'Garantir que cada pedido saia correto, completo e no padrão Cabana.',
+   items:['Conferir os pedidos e validar os itens da comanda','Organizar a bandeja','Fazer a entrega nominal, apresentando cada item ao cliente','Perguntar se deseja ketchup ou mostarda'],
+   must:'Atenção aos detalhes. Um pedido entregue corretamente evita retrabalho e gera confiança.', tint:'var(--purple-tint)', mtext:'#4A3768'},
+  {ic:'cart', bg:'var(--orange)', t:'Delivery', mission:'Garantir que todo pedido online seja acompanhado do início ao fim.',
+   items:['Integrar os pedidos ao sistema e conferir valores','Emitir notas fiscais','Acompanhar chats dos clientes e monitorar tempo de preparo','Acompanhar entregadores e realizar a dupla conferência antes do despacho'],
+   must:'Organização e controle.', tint:'var(--orange-tint)', mtext:'#8C4A16'},
+  {ic:'box', bg:'var(--coral)', t:'Expedição (Despacho)', mission:'Garantir que o pedido saia completo, correto e pronto para chegar ao cliente.',
+   items:['Conferir hambúrgueres, batatas e adicionais e montar o kit delivery','Lacrar as embalagens e identificar corretamente as sacolas','Liberar a comanda no KDS e sinalizar atrasos para a cozinha','Conferir nome do cliente e número do pedido antes da entrega ao entregador'],
+   must:'Precisão. Depois que o pedido sai da loja, não existe segunda chance.', tint:'var(--coral-tint)', mtext:'#8C2C25'},
+];
+const JOURNEY = [
+  {t:'Preparação do salão', d:'A jornada começa antes do cliente chegar. Mesas limpas, cadeiras bem-posicionadas, cardápios no lugar, iluminação certa. Antes de abrir, percorre o salão com os olhos de quem vai entrar pela primeira vez.', tip:'Erro comum: achar que preparar o salão é responsabilidade de uma pessoa só. É de todo mundo que chegou antes do cliente.'},
+  {t:'Recepção: o primeiro contato', d:'É a primeira impressão do cliente. Cumprimenta de forma amistosa, com contato visual e tom de voz interessado.', quote:'"Olá, seja bem-vindo ao Cabana! Mesa pra quantas pessoas?"', tip:'Cumprimente como se fosse a primeira vez naquele dia. Pra você pode ser a décima. Pra ele, é a única.'},
+  {t:'Espera', d:'Se não houver mesas disponíveis, abre o processo de espera com atenção, simpatia e calma. Lojas com Get In registram nome e número do cliente.', quote:'"Olá, no momento não temos mesas disponíveis, mas posso colocar seu nome na nossa fila de espera, tudo bem?"', tip:'Nunca informamos a estimativa de tempo, só a quantidade de mesas.'},
+  {t:'Acomodação', d:'Antes de levar o cliente pra mesa, certifica que ela está limpa e organizada. Acompanha o cliente até a mesa, sem deixá-lo perdido no salão.', quote:'"Sua mesa tá pronta, podem me acompanhar por favor."', tip:'Temos cardápio impresso, em inglês e em braile para quem precisar.'},
+  {t:'Apresentação', d:'A primeira visita à mesa acontece em até 30 segundos após o cliente ser acomodado. Se apresenta pelo nome e pergunta se o cliente já conhece o Cabana.', quote:'"Olá, eu sou [nome] e vou cuidar do atendimento de vocês hoje. Já conhecem o Cabana?"', tip:'Anota o pedido e reconfirma cada item — assim há menos chance de erro.', img:'menu-recepcao'},
+  {t:'Venda consultiva', d:'Hora de mostrar que você conhece o cardápio de verdade: sabor, textura, o que combina com o quê. Usa palavras positivas pra apoiar as decisões do cliente.', quote:'"Ótima escolha!" · "Excelente pedida!"', tip:'Erro comum: indicar o prato mais caro por padrão. O cliente percebe, e isso prejudica a confiança.', img:'drink'},
+  {t:'Boqueta: ponto crítico de entrega', d:'É onde o produto passa da cozinha pro salão. Analisa se os pedidos estão no padrão, monta a bandeja e entrega descrevendo cada produto.', quote:'"Bom apetite! Vocês querem ketchup ou mostarda?"', tip:'Monitorar a boqueta é responsabilidade de toda a equipe de salão. Quando ela chama, alguém responde. Sempre.', img:'boqueta-tray'},
+  {t:'Check-in: bater a mesa', d:'Verifica se o cliente está satisfeito após a segunda mordida, com perguntas específicas sobre o lanche.', quote:'"Está tudo certo com o seu lanche? Ponto da carne ok? Precisa de mais alguma coisa?"', tip:'Ao identificar insatisfação, aciona imediatamente o coordenador de salão.'},
+  {t:'Check-in do coordenador', d:'O coordenador de salão visita a mesa pra checar a experiência do cliente e colher feedback construtivo.', quote:'"E aí pessoal, como está sendo a experiência de vocês hoje?"'},
+  {t:'Check-out: fechamento', d:'Faz a limpeza da mesa, pergunta se o cliente gostou e aproveita pra uma venda sugestiva de sobremesa. Entrega a conta com a plaquinha de avaliação do Google.', quote:'"Muito obrigado, foi um prazer atender vocês. Até logo!"', img:'pos-checkout'},
+];
+const CASES = [
+  {tag:'Caso 1', t:'Boqueta e mesa ao mesmo tempo', sit:'Sexta à noite, salão lotado. Ao voltar de uma mesa, a boqueta chama um pedido e, ao mesmo tempo, o cliente da mesa 7 levanta a mão.', ans:'A resposta não é ignorar a mesa 7. É reconhecê-la: um olhar, um aceno, um "já te atendo" dito de longe enquanto você busca o pedido.', learn:'Prioridade não é ignorar. É sequenciar. Reconhecer o cliente enquanto resolve o mais urgente é fazer as duas coisas.'},
+  {tag:'Caso 2', t:'Pedido saiu errado', sit:'A mesa 4 pediu hambúrguer sem cebola. O que chegou tinha cebola.', ans:'Reação certa: reconhecer sem drama — "Peço desculpa, vou resolver agora mesmo." Retira o prato e comunica a cozinha com prioridade.', learn:'Um erro resolvido com excelência pode criar um cliente mais fiel do que um atendimento sem nenhum erro.'},
+  {tag:'Caso 3', t:'Cliente insatisfeito que não fala nada', sit:'Dois clientes em silêncio, comida quase intacta. O caminho fácil é um "Tá tudo bem?" protocolar.', ans:'O caminho certo: "Percebi que o prato não foi muito ao gosto de vocês. Posso fazer algo pra ajudar?"', learn:'Nomear o que você está vendo abre espaço pro cliente falar — e demonstra atenção real, mesmo quando ele não reclama.'},
+  {tag:'Caso 4', t:'Mesa suja e ninguém disponível', sit:'Movimento alto, mesa liberada, grupo esperando na porta, e você está atendendo outra mesa.', ans:'Pede licença ao cliente que você atende, limpa a mesa em trinta segundos e volta — com naturalidade, sem sumir.', learn:'Flexibilidade é redistribuir a atenção conforme a demanda muda. Só funciona quando toda a equipe tem consciência do todo.'},
+  {tag:'Caso 5', t:'O 86', sit:'O cliente pediu um produto que já acabou (deu 86).', ans:'Vai até a mesa imediatamente, sem deixar o cliente esperando. Seja sincero e ofereça uma alternativa com propriedade.', learn:'O cliente valoriza a honestidade muito mais do que esperar eternamente por um pedido que não existe.'},
+];
+const GLOSSARY = [
+  {t:'BOQUETA', d:'Lugar onde você confere e retira os pedidos. Ponto crítico de entrega.'},
+  {t:'KDS', d:'Kitchen Display System — as telas da cozinha onde aparecem os pedidos.'},
+  {t:'MICROS', d:'Sistema onde você lança pedidos, abre mesas e registra pagamentos.'},
+  {t:'PRELEÇÃO', d:'Reunião da equipe 15 minutos antes de abrir. O aquecimento antes do jogo.'},
+  {t:'NPS', d:'Índice em que o cliente avalia o quanto indicaria o Cabana.'},
+  {t:'86', d:'Falta de um item do cardápio na loja.'},
+  {t:'NA URJA / NO TIRO', d:'Quando precisamos de um produto com prioridade máxima.'},
+  {t:'BATER A MESA', d:'Fazer o check-in, conferindo se o pedido veio certinho.'},
+  {t:'PASSA A PRAÇA', d:'Passar o status das mesas pra quem vai assumir.'},
+  {t:'TÁ NADANDO', d:'Quando o Cabaneiro não está dando conta de fazer tudo.'},
+  {t:'FECHA O CAIXA', d:'Momento em que os atendentes juntam boletas e fecham o caixa.'},
+  {t:'OLHA O BOT', d:'Verificar o WhatsApp da loja pra checar mensagens de delivery.'},
+];
+
+/* ================= QUIZZES ================= */
+const QUIZZES = {
+  0: [
+    {q:'Qual é o critério mais importante pra decidir uma ação no dia a dia?', opts:['O que é mais rápido de fazer','O que é melhor pra experiência do cliente','O que o gerente faria'], correct:1, fb:'O critério mais importante é sempre o mesmo: o que é melhor pra experiência do cliente?'},
+    {q:'"Percebeu, agiu" resume qual postura?', opts:['Pensar e agir como dono','Fazer mais com menos','Foco no cliente'], correct:0, fb:'Pensar e agir como dono significa não esperar alguém mandar — ver o que precisa ser feito e fazer.'},
+    {q:'Qual posição é responsável por garantir que o pedido saia correto e no padrão Cabana, na conferência entre cozinha e salão?', opts:['Embaixador','Boqueta','Expedição'], correct:1, fb:'A Boqueta é o ponto crítico de entrega: confere, valida e faz a entrega nominal de cada item.'},
+    {q:'De acordo com o material, o que constrói confiança dentro de uma equipe?', opts:['Papo e boas intenções','Consistência — fazer o que disse que ia fazer','Elogios do coordenador'], correct:1, fb:'Confiança não se constrói com papo. Se constrói com consistência.'},
+    {q:'Qual porcentagem de clientes volta porque foi bem atendido, segundo o material?', opts:['40%','65%','80%'], correct:1, fb:'65% dos clientes voltam porque foram bem atendidos — não pelo hambúrguer ou pela loja.'},
+  ],
+  1: [
+    {q:'Quando a jornada do cliente realmente começa?', opts:['Quando ele senta à mesa','Antes de ele chegar, na preparação do salão','Quando o pedido é lançado no Micros'], correct:1, fb:'A jornada começa quando a equipe prepara o ambiente para receber, antes do cliente entrar.'},
+    {q:'Na fila de espera, o que NUNCA devemos informar ao cliente?', opts:['O nome dele na lista','A estimativa de tempo de espera','A quantidade de mesas na frente'], correct:1, fb:'Nunca informamos a estimativa de tempo, só a quantidade de mesas.'},
+    {q:'Em quanto tempo deve acontecer a primeira visita à mesa, após o cliente ser acomodado?', opts:['Até 30 segundos','Até 5 minutos','Quando o cliente chamar'], correct:0, fb:'A primeira visita deve ser feita dentro de 30 segundos após o cliente ser acomodado.'},
+    {q:'Qual é o erro comum na etapa de venda consultiva?', opts:['Explicar o cardápio com detalhes','Indicar o prato mais caro por padrão','Usar palavras positivas'], correct:1, fb:'Indicar o prato mais caro por padrão é um erro comum — o cliente percebe e isso prejudica a confiança.'},
+  ],
+  2: [
+    {q:'Qual é a diferença entre trabalhar em um restaurante e operar um restaurante?', opts:['Não há diferença', 'Operar significa enxergar o sistema, não só executar tarefas', 'Operar é ter mais experiência de tempo de casa'], correct:1, fb:'Quem opera enxerga o sistema — não só a própria função.'},
+    {q:'No pico de movimento, o que deve acontecer com a comunicação da equipe?', opts:['Diminuir, pra não atrapalhar','Aumentar — avisar antes de precisar de ajuda','Ficar só entre líderes'], correct:1, fb:'No pico, a comunicação costuma cair exatamente quando devia aumentar.'},
+    {q:'O que significa "86" no vocabulário Cabana?', opts:['Prioridade máxima de um pedido','Falta de um item do cardápio','Reunião antes do turno'], correct:1, fb:'86 é quando um item do cardápio acabou na loja.'},
+    {q:'No Caso 2 (pedido com cebola), qual é a reação certa?', opts:['Explicar que o pedido foi feito certo','Reconhecer sem drama e resolver na hora','Pedir pro cliente confirmar o pedido de novo'], correct:1, fb:'Reconhecer sem drama, retirar o prato e comunicar a cozinha com prioridade.'},
+  ],
+};
+
+/* ================= MODULE STRUCTURE (for nav) ================= */
+const MODULES = [
+  {t:'O Jeito Cabana', chapters:['Muito prazer. Somos Cabana.','Somos operadores de restaurante','Nosso time em ação','Gente boa faz acontecer','Hospitalidade','O cliente no centro']},
+  {t:'Experiência do Cliente', chapters:['A jornada em 10 passos']},
+  {t:'Fazer Certo, com Qualidade e Agilidade', chapters:['Pensar como operador','Casos práticos','WikiCabana','Pra você pensar']},
+];
+let quizState = {0:false,1:false,2:false};
+let current = {mod:0, chap:0};
+
+/* ================= RENDER: SIDEBAR ================= */
+function renderNav(){
+  const nav = document.getElementById('module-nav');
+  nav.innerHTML = '';
+  MODULES.forEach((m, mi)=>{
+    const locked = mi>0 && !quizState[mi-1];
+    const done = quizState[mi];
+    const btn = document.createElement('button');
+    btn.className = 'mod-btn' + (current.mod===mi?' active':'') + (done?' done':'') + (locked?' locked':'');
+    btn.innerHTML = `<span class="num">${done?'✓':(mi+1)}</span><span>${m.t}</span>` + (locked?'<span class="lock">'+ICONS.lock+'</span>':'');
+    btn.onclick = ()=>{ if(!locked) jumpTo(mi,0); };
+    nav.appendChild(btn);
+    if(current.mod===mi){
+      const list = document.createElement('div');
+      list.className='chap-list';
+      m.chapters.forEach((c,ci)=>{
+        const cb = document.createElement('button');
+        cb.className='chap-btn'+(current.chap===ci?' active':'');
+        cb.textContent = c;
+        cb.onclick = ()=>{ current.chap=ci; scrollToChapter(mi,ci); renderNav(); };
+        list.appendChild(cb);
+      });
+      nav.appendChild(list);
+    }
+  });
+  const doneCount = Object.values(quizState).filter(Boolean).length;
+  document.getElementById('progress-pct').textContent = Math.round(doneCount/3*100)+'%';
+  document.getElementById('progress-fill').style.width = Math.round(doneCount/3*100)+'%';
+}
+function scrollToChapter(mi,ci){
+  const el = document.getElementById(`chap-${mi}-${ci}`);
+  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+function jumpTo(mi,ci){
+  current.mod=mi; current.chap=ci;
+  renderModule(mi);
+  renderNav();
+  window.scrollTo({top:0,behavior:'instant'});
+  document.getElementById('sidebar').classList.remove('open');
+}
+
+/* ================= RENDER: MODULE CONTENT ================= */
+function renderModule(mi){
+  const root = document.getElementById('content-root');
+  if(mi===0) root.innerHTML = moduleZeroHTML();
+  if(mi===1) root.innerHTML = moduleOneHTML();
+  if(mi===2) root.innerHTML = moduleTwoHTML();
+  attachInteractions(mi);
+}
+
+function moduleZeroHTML(){
+  return `
+  <span class="eyebrow">Módulo 1 de 3</span>
+  <h1 class="page-title">O Jeito Cabana</h1>
+  <p class="page-lede">Cultura e Experiência Cabana — conectar você à cultura, hospitalidade e experiência que a gente quer entregar.</p>
+
+  <section class="chapter-block" id="chap-0-0">
+    <div class="kicker">Capítulo 1</div>
+    <h2>${icon('flag')} Muito prazer. Somos Cabana.</h2>
+    <p>Nossa história, em quatro momentos:</p>
+    <div class="timeline">
+      <div class="timeline-item"><div class="year">2016</div><p>Um grupo de amigos cria o Cabana: um hambúrguer de verdade, com ingredientes reais, sem atalho, sem congelado.</p></div>
+      <div class="timeline-item"><div class="year">2º mês</div><p>A primeira loja fatura R$ 1 milhão. Não foi sorte: foi proposta clara e execução consistente.</p></div>
+      <div class="timeline-item"><div class="year">Hoje</div><p>Somos 18 lojas próprias, 10 franquias e uma Cozinha Central em Santana de Parnaíba, que produz mais de 90% dos nossos insumos de forma artesanal.</p></div>
+      <div class="timeline-item"><div class="year">2025</div><p>Os sócios Paulo Assarito, Evandro Borovicz e Bruno Lemos recompraram o Cabana — a empresa voltou para as mãos de quem a construiu.</p></div>
+    </div>
+
+    <p style="margin-top:28px;"><strong>Nossos três pilares</strong> — tudo que fazemos se apoia neles:</p>
+    <div class="grid cols-3">
+      ${PILLARS.map(p=>`<div class="pillar-card ${p.cls}">${icon(p.ic)}<h3>${p.t}</h3><p>${p.d}</p></div>`).join('')}
+    </div>
+
+    <p style="margin-top:28px;"><strong>Nossos valores</strong></p>
+    <div class="grid cols-3">
+      ${VALUES.map(v=>`<div class="value-card"><h4>${v.t}</h4><p>${v.d}</p></div>`).join('')}
+    </div>
+  </section>
+
+  <section class="chapter-block" id="chap-0-1">
+    <div class="kicker">Capítulo 2</div>
+    <h2>${icon('compass')} Somos operadores de restaurante</h2>
+    <p>Ser Cabaneiro não é só atender mesas. É operar um restaurante — com responsabilidade, ritmo e padrão. Na prática, isso significa:</p>
+    <ul class="icon-list">
+      <li>${ICONS.check}<span><strong>Responsabilidade coletiva:</strong> a experiência do cliente depende de todos. Cozinha, salão, boqueta, expedição — cada peça importa.</span></li>
+      <li>${ICONS.check}<span><strong>Pensar no NÓS, não no EU:</strong> a praça do colega é também sua. Se alguém está nadando, você apoia.</span></li>
+      <li>${ICONS.check}<span><strong>Fazer certo, com qualidade e agilidade:</strong> evitar desperdício de tempo, insumo e esforço é respeito com o negócio e com a equipe.</span></li>
+      <li>${ICONS.check}<span><strong>Nunca com menos qualidade:</strong> velocidade sem padrão é caos. Padrão sem velocidade frustra o cliente. Os dois andam juntos.</span></li>
+    </ul>
+    <div class="callout quote" style="margin-top:20px;">"Percebeu, agiu." Não espera alguém mandar. Ver o que precisa ser feito e fazer — com autonomia, sem precisar de ordem pra tudo.</div>
+    <div class="photo-banner">
+      <img src="${PHOTOS['portrait-man']}" alt="Cabaneiro da equipe de gestão">
+      <div class="photo-caption">Pensar e agir como dono é uma postura — não um cargo.</div>
+    </div>
+    <p style="margin-top:20px;"><strong>Perceber antes que o cliente precise pedir</strong> não é adivinhar. É prestar atenção e usar o que você vê pra tomar a próxima ação — um copo vazio, um casal terminando o hambúrguer, um cliente sozinho há dois minutos sem ser atendido.</p>
+    <p><strong>Entender como toda a operação funciona:</strong> a cozinha produz, o salão distribui, o atendimento percebe e responde. Cada parte depende da outra.</p>
+  </section>
+
+  <section class="chapter-block" id="chap-0-2">
+    <div class="kicker">Capítulo 3</div>
+    <h2>${icon('team')} Nosso time em ação</h2>
+    <p>Nenhuma experiência acontece sozinha. Mais importante do que saber apenas a sua função é entender como cada posição contribui pra experiência do cliente. Este é o mapa das principais posições do salão:</p>
+    <div class="photo-banner">
+      <img src="${PHOTOS['team-group']}" alt="Time Cabana reunido na inauguração de uma loja">
+      <div class="photo-caption">O time Cabana em ação — cada posição, uma peça do mesmo time.</div>
+    </div>
+    <div class="grid cols-2" style="margin-top:16px;">
+      ${ROLES.map(r=>`
+        <div class="role-card">
+          <div class="role-head">
+            <div class="role-icon" style="background:${r.bg};color:#fff;">${ICONS[r.ic]}</div>
+            <h3>${r.t}</h3>
+          </div>
+          <p class="mission">${r.mission}</p>
+          <ul>${r.items.map(i=>`<li>${i}</li>`).join('')}</ul>
+          <div class="role-must" style="background:${r.tint};color:${r.mtext};"><strong>O que nunca pode faltar:</strong> ${r.must}</div>
+        </div>
+      `).join('')}
+    </div>
+    <div class="callout tip" style="margin-top:20px;">${ICONS.heart}<span>No Cabana não existe função mais importante que outra. Recepção → Atendimento → Cozinha → Boqueta → Expedição — todos dependem uns dos outros.</span></div>
+  </section>
+
+  <section class="chapter-block" id="chap-0-3">
+    <div class="kicker">Capítulo 4</div>
+    <h2>${icon('handshake')} Gente boa faz acontecer</h2>
+    <p>GENTE BOA é o que nós somos. Quando uma equipe funciona bem e a comunicação rola de verdade, o salão tem fluidez — as coisas acontecem na hora certa.</p>
+    <div class="photo-banner">
+      <img src="${PHOTOS['duo-portrait']}" alt="Dupla de Cabaneiros sorrindo na loja">
+      <div class="photo-caption">Time que confia, time que entrega — junto.</div>
+    </div>
+    <div class="grid cols-2">
+      <div class="card"><h3 style="margin:0 0 6px;font-size:15.5px;">Confiança</h3><p style="font-size:13.5px;margin:0;">É a certeza de que o outro vai fazer a parte dele. Não se constrói com papo — se constrói com consistência.</p></div>
+      <div class="card"><h3 style="margin:0 0 6px;font-size:15.5px;">Respeito com todo mundo</h3><p style="font-size:13.5px;margin:0;">Nenhuma função é mais importante que outra. Pense no NÓS, ao invés do EU.</p></div>
+      <div class="card"><h3 style="margin:0 0 6px;font-size:15.5px;">Comunicação que funciona</h3><p style="font-size:13.5px;margin:0;">Avisar que vai precisar de ajuda antes de precisar. Confirmar o pedido antes de sair da mesa. E, acima de tudo, ouvir.</p></div>
+      <div class="card"><h3 style="margin:0 0 6px;font-size:15.5px;">O Momento Preleção</h3><p style="font-size:13.5px;margin:0;">15 minutos antes de abrir: a equipe se alinha, reconhece quem fez bem feito e entra em campo junto.</p></div>
+    </div>
+  </section>
+
+  <section class="chapter-block" id="chap-0-4">
+    <div class="kicker">Capítulo 5</div>
+    <h2>${icon('heart')} Hospitalidade</h2>
+    <div class="callout quote">"Nossa cabana não tem portas porque todos são bem-vindos. Recebemos todos como iguais."</div>
+    <p style="margin-top:16px;">Servir não é o mesmo que hospitalidade. Servir é organização do atendimento — necessário, mas é o mínimo que qualquer cliente espera. Hospitalidade é fazer alguém se sentir bem-vindo de verdade — é enxergar o ser humano por trás do pedido.</p>
+    <div class="grid cols-2" style="margin-top:14px;">
+      <div class="value-card"><h4>Foco no cliente</h4><p>É a prioridade número 1 e a âncora: quando não souber o que fazer, pensa no cliente.</p></div>
+      <div class="value-card"><h4>Empatia</h4><p>Perceber como o cliente está se sentindo e adaptar a abordagem a partir disso.</p></div>
+      <div class="value-card"><h4>Tenha propriedade</h4><p>Quando surgir um problema na sua praça, você é dono dele até resolver.</p></div>
+      <div class="value-card"><h4>Atitude automática</h4><p>O objetivo é ser hospitaleiro sempre — principalmente no turno cheio e no dia difícil.</p></div>
+    </div>
+  </section>
+
+  <section class="chapter-block" id="chap-0-5">
+    <div class="kicker">Capítulo 6</div>
+    <h2>${icon('target')} O cliente no centro</h2>
+    <p>A pergunta que deve orientar cada decisão: <strong>como isso afeta a experiência do cliente?</strong> Não porque o hambúrguer era o melhor. Não porque a loja era a mais bonita. Porque foram bem atendidos.</p>
+    <div class="callout stat">
+      <div><div class="stat-big">65%</div><p style="margin:2px 0 0;font-size:13.5px;">dos clientes voltam porque foram bem atendidos.</p></div>
+    </div>
+    <p style="margin-top:18px;">Não perdemos o cliente no momento em que ele reclama. Perdemos quando não somos ágeis pra resolver. Uma reclamação é uma chance, não uma perda.</p>
+    <p><strong>Com clientes difíceis:</strong> mantém a calma, é claro e objetivo, é sincero e admite erros quando existirem, sempre comunica o líder, evita discussão. E não fica pessoalmente afetado — o cliente está incomodado com a situação, não com você.</p>
+  </section>
+
+  ${quizBlock(0,'Confira o que você aprendeu no Módulo 1')}
+  `;
+}
+
+function moduleOneHTML(){
+  return `
+  <span class="eyebrow">Módulo 2 de 3</span>
+  <h1 class="page-title">Experiência do Cliente</h1>
+  <p class="page-lede">Todo cliente que entra aqui percorre uma jornada — com começo, meio e fim. Entender essa jornada ajuda a perceber onde o seu trabalho se encaixa e onde está a chance de criar algo que o cliente vai lembrar.</p>
+
+  <section class="chapter-block" id="chap-1-0">
+    <div class="kicker">A jornada completa</div>
+    <h2>${icon('route')} 10 passos, do salão vazio ao "até logo"</h2>
+    <div class="card" style="padding:6px 24px;">
+      ${JOURNEY.map((j,i)=>`
+        <div class="journey-step">
+          <div class="journey-num">${i+1}</div>
+          <div class="journey-body">
+            <h4>${j.t}</h4>
+            <p>${j.d}</p>
+            ${j.quote?`<div class="journey-quote">${j.quote}</div>`:''}
+            ${j.tip?`<div class="journey-tip">💡 ${j.tip}</div>`:''}
+          </div>
+          ${j.img?`<div class="photo-inline journey-media"><img src="${PHOTOS[j.img]}" alt="Time Cabana em ação — ${j.t}" loading="lazy"></div>`:''}
+        </div>
+      `).join('')}
+    </div>
+  </section>
+
+  ${quizBlock(1,'Confira o que você aprendeu no Módulo 2')}
+  `;
+}
+
+function moduleTwoHTML(){
+  return `
+  <span class="eyebrow">Módulo 3 de 3</span>
+  <h1 class="page-title">Fazer Certo, com Qualidade e Agilidade</h1>
+  <p class="page-lede">As habilidades de leitura, decisão e organização que transformam um turno caótico num turno bem executado.</p>
+
+  <section class="chapter-block" id="chap-2-0">
+    <div class="kicker">Pensar como operador</div>
+    <h2>${icon('eye')} Ler o salão e decidir com critério</h2>
+    <p>Existe diferença entre trabalhar em um restaurante e operar um restaurante: o segundo enxerga o sistema.</p>
+    <div class="grid cols-2">
+      <div class="card"><h3 style="margin:0 0 6px;font-size:15px;">${icon('eye')} Leitura do salão</h3><p style="font-size:13.5px;margin:0;">Perceber, em segundos, o estado da operação — quais mesas aguardam, quais precisam de limpeza. Pergunta regularmente: o que mais precisa de atenção agora?</p></div>
+      <div class="card"><h3 style="margin:0 0 6px;font-size:15px;">${icon('scale')} Decidir o que fazer primeiro</h3><p style="font-size:13.5px;margin:0;">O que compromete mais pessoas ou de forma mais grave vai primeiro. O critério máximo: o que é melhor pro cliente?</p></div>
+      <div class="card"><h3 style="margin:0 0 6px;font-size:15px;">${icon('route')} Organização e movimento</h3><p style="font-size:13.5px;margin:0;">Cada deslocamento pode ter propósito duplo: levar, buscar, observar, comunicar.</p></div>
+      <div class="card"><h3 style="margin:0 0 6px;font-size:15px;">${icon('chat')} Salão e cozinha</h3><p style="font-size:13.5px;margin:0;">O salão são os olhos da cozinha; a cozinha são os ouvidos do salão. Quando o canal está aberto, os dois trabalham como um time.</p></div>
+    </div>
+    <div class="callout warn" style="margin-top:16px;">${ICONS.fire}<span><strong>No pico de movimento:</strong> respira, comunica mais (não menos) e mantém o padrão. O cliente que entrou no pico não sabe que é pico — pra ele, é o momento de lazer dele.</span></div>
+  </section>
+
+  <section class="chapter-block" id="chap-2-1">
+    <div class="kicker">Casos práticos</div>
+    <h2>${icon('puzzle')} O que você faria?</h2>
+    <p>Leia a situação, pense na sua resposta e depois revele o que o material recomenda.</p>
+    ${CASES.map((c,i)=>`
+      <div class="case-card">
+        <span class="case-tag">${c.tag}</span>
+        <h4>${c.t}</h4>
+        <p>${c.sit}</p>
+        <button class="reveal-btn" onclick="toggleReveal(${i})">Ver a resposta recomendada</button>
+        <div class="reveal-content" id="reveal-${i}">
+          <div class="label">Resposta recomendada</div>
+          <p>${c.ans}</p>
+          <div class="label" style="color:var(--magenta);">O que aprender aqui</div>
+          <p style="margin-bottom:0;">${c.learn}</p>
+        </div>
+      </div>
+    `).join('')}
+  </section>
+
+  <section class="chapter-block" id="chap-2-2">
+    <div class="kicker">WikiCabana</div>
+    <h2>${icon('book')} O nosso vocabulário</h2>
+    <p>Antes de entrar em campo, você precisa conhecer o idioma da operação. Toque em cada carta pra ver o significado.</p>
+    <div class="glossary-grid">
+      ${GLOSSARY.map((g,i)=>`
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-inner">
+            <div class="flip-face flip-front">${g.t}</div>
+            <div class="flip-face flip-back">${g.d}</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  </section>
+
+  <section class="chapter-block" id="chap-2-3">
+    <div class="kicker">Pra você pensar</div>
+    <h2>${icon('notebook')} Exercícios de reflexão</h2>
+    <p>Sem certo ou errado aqui — é um espaço pra você pensar sobre a própria prática. Ninguém mais vê o que você escreve: as respostas não são enviadas pra lugar nenhum, mas você pode baixar um arquivo com o que escreveu pra guardar ou levar pra próxima preleção.</p>
+    <div class="card" id="reflect-form">
+      <p style="font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--green-dark);margin:0 0 14px;">Autoavaliação</p>
+      <div class="reflect-block"><p class="q">Pensa num atendimento que você fez e ficou insatisfeito com o resultado. O que faria diferente hoje?</p><textarea placeholder="Escreva aqui..."></textarea></div>
+      <div class="reflect-block"><p class="q">De 1 a 10, como você avalia sua capacidade de ler o perfil de um cliente? O que precisaria mudar pra subir um ponto?</p><textarea placeholder="Escreva aqui..."></textarea></div>
+      <div class="reflect-block"><p class="q">No pico, qual é o seu maior desafio pessoal: decidir o que fazer primeiro, comunicação ou manter a hospitalidade sob pressão?</p><textarea placeholder="Escreva aqui..."></textarea></div>
+    </div>
+    <div class="card" style="margin-top:14px;">
+      <p style="font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--green-dark);margin:0 0 14px;">Situações pra discutir com a equipe</p>
+      <div class="reflect-block"><p class="q">Um colega comete um erro repetido que afeta os clientes. Como abordar isso?</p><textarea placeholder="Escreva aqui..."></textarea></div>
+      <div class="reflect-block"><p class="q">O gerente está ausente e um cliente insatisfeito quer falar com o responsável. O que fazer?</p><textarea placeholder="Escreva aqui..."></textarea></div>
+    </div>
+    <div class="card" style="margin-top:14px;">
+      <p style="font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--green-dark);margin:0 0 14px;">Perguntas pra levar pra vida</p>
+      <div class="reflect-block"><p class="q">Como você quer que os clientes do Cabana se lembrem de você daqui a um ano? O que você precisa fazer hoje pra isso acontecer?</p><textarea placeholder="Escreva aqui..."></textarea></div>
+    </div>
+    <div class="reflect-export">
+      <button class="btn-secondary" onclick="exportReflectionsTxt()">${ICONS.download} Baixar respostas (.txt)</button>
+      <button class="btn-secondary" onclick="exportReflectionsPdf()">${ICONS.download} Salvar como PDF</button>
+    </div>
+  </section>
+
+  ${quizBlock(2,'Confira o que você aprendeu no Módulo 3')}
+  `;
+}
+
+function quizBlock(mi, title){
+  return `
+  <section class="chapter-block" id="quiz-${mi}">
+    <div class="quiz-shell">
+      <h2>${title}</h2>
+      <div class="quiz-progress" id="qp-${mi}">Pergunta 1 de ${QUIZZES[mi].length}</div>
+      <div id="quiz-body-${mi}"></div>
+      <div id="quiz-result-${mi}"></div>
+    </div>
+  </section>`;
+}
+
+/* ================= QUIZ LOGIC ================= */
+let quizIndex = {0:0,1:0,2:0};
+let quizScore = {0:0,1:0,2:0};
+function attachInteractions(mi){
+  buildQuiz(mi);
+}
+function buildQuiz(mi){
+  quizIndex[mi]=0; quizScore[mi]=0;
+  const body = document.getElementById(`quiz-body-${mi}`);
+  if(!body) return;
+  body.innerHTML = QUIZZES[mi].map((q,qi)=>`
+    <div class="quiz-q ${qi===0?'active':''}" data-qi="${qi}">
+      <p class="qtext">${q.q}</p>
+      ${q.opts.map((o,oi)=>`<button class="quiz-opt" onclick="answerQuiz(${mi},${qi},${oi})">${o}</button>`).join('')}
+      <div class="quiz-feedback" id="fb-${mi}-${qi}"></div>
+      <div class="quiz-nav"><button class="btn-primary" id="next-${mi}-${qi}" disabled onclick="nextQuiz(${mi})">Próxima ${qi===QUIZZES[mi].length-1?'· ver resultado':''} →</button></div>
+    </div>
+  `).join('');
+  document.getElementById(`quiz-result-${mi}`).innerHTML='';
+}
+function answerQuiz(mi,qi,oi){
+  const q = QUIZZES[mi][qi];
+  const buttons = document.querySelectorAll(`.quiz-q[data-qi="${qi}"] .quiz-opt`);
+  if(buttons[0].disabled) return;
+  buttons.forEach((b,i)=>{
+    b.disabled = true;
+    if(i===q.correct) b.classList.add('correct');
+    else if(i===oi) b.classList.add('wrong');
+  });
+  const fb = document.getElementById(`fb-${mi}-${qi}`);
+  fb.classList.add('show');
+  if(oi===q.correct){
+    quizScore[mi]++;
+    fb.style.background='var(--jade-tint)'; fb.style.color='#1E5A3E';
+    fb.textContent = 'Isso aí! ' + q.fb;
+  } else {
+    fb.style.background='var(--coral-tint)'; fb.style.color='#8C2C25';
+    fb.textContent = 'Quase! ' + q.fb;
+  }
+  document.getElementById(`next-${mi}-${qi}`).disabled=false;
+}
+function nextQuiz(mi){
+  const total = QUIZZES[mi].length;
+  const qi = quizIndex[mi];
+  if(qi<total-1){
+    document.querySelector(`#quiz-body-${mi} .quiz-q[data-qi="${qi}"]`).classList.remove('active');
+    quizIndex[mi]++;
+    document.querySelector(`#quiz-body-${mi} .quiz-q[data-qi="${quizIndex[mi]}"]`).classList.add('active');
+    document.getElementById(`qp-${mi}`).textContent = `Pergunta ${quizIndex[mi]+1} de ${total}`;
+  } else {
+    document.getElementById(`qp-${mi}`).textContent = `Concluído`;
+    const pct = Math.round(quizScore[mi]/total*100);
+    document.getElementById(`quiz-result-${mi}`).innerHTML = `
+      <div class="quiz-result">
+        <div class="stat-big">${quizScore[mi]}/${total}</div>
+        <p>Você acertou ${pct}% das perguntas deste módulo.</p>
+        <div class="nextmod-bar" style="justify-content:center;">
+          <button class="btn-primary" onclick="completeModule(${mi})">${mi<2?'Ir para o próximo módulo →':'Finalizar o Livro 1 →'}</button>
+        </div>
+      </div>`;
+    quizState[mi]=true;
+    renderNav();
+  }
+}
+function completeModule(mi){
+  if(mi<2){ jumpTo(mi+1,0); }
+  else{ goToScreen('screen-done'); }
+}
+function toggleReveal(i){
+  document.getElementById(`reveal-${i}`).classList.toggle('show');
+}
+
+/* ================= REFLECTION EXPORT ================= */
+function collectReflections(){
+  const section = document.getElementById('chap-2-3');
+  const groups = [];
+  section.querySelectorAll('.card').forEach(card=>{
+    const header = card.querySelector(':scope > p');
+    const items = [];
+    card.querySelectorAll('.reflect-block').forEach(rb=>{
+      const q = rb.querySelector('.q').textContent;
+      const a = rb.querySelector('textarea').value.trim();
+      items.push({q,a});
+    });
+    groups.push({header: header ? header.textContent : '', items});
+  });
+  return groups;
+}
+function exportReflectionsTxt(){
+  const groups = collectReflections();
+  let text = "ACADEMIA CABANA DE HOSPITALIDADE\nMinhas respostas — Livro 1, Módulo 3: Fazer Certo, com Qualidade e Agilidade\n\n";
+  groups.forEach(g=>{
+    text += `— ${g.header} —\n\n`;
+    g.items.forEach(it=>{
+      text += `P: ${it.q}\nR: ${it.a || '(em branco)'}\n\n`;
+    });
+  });
+  const blob = new Blob([text], {type:'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'minhas-respostas-o-jeito-cabana.txt';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+function exportReflectionsPdf(){
+  const groups = collectReflections();
+  const area = document.getElementById('print-area');
+  let html = `<h1>Minhas respostas — O Jeito Cabana</h1><div class="print-sub">Academia Cabana de Hospitalidade · Livro 1 · Módulo 3</div>`;
+  groups.forEach(g=>{
+    html += `<div class="print-section"><h2>${g.header}</h2>`;
+    g.items.forEach(it=>{
+      const safeQ = it.q.replace(/</g,'&lt;');
+      const safeA = (it.a || '(em branco)').replace(/</g,'&lt;');
+      html += `<div class="print-q">${safeQ}</div><div class="print-a">${safeA}</div>`;
+    });
+    html += `</div>`;
+  });
+  area.innerHTML = html;
+  window.print();
+}
+
+/* ================= SCREENS ================= */
+function goToScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'instant'});
+}
+function startCourse(){
+  goToScreen('screen-course');
+  jumpTo(0,0);
+}
+</script>
+</body>
+</html>
